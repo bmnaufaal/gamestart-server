@@ -38,10 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           notNull: {
-            msg: "Password should not be null",
+            msg: "Password is required",
           },
           notEmpty: {
-            msg: "Password should not be empty",
+            msg: "Password is required",
           },
         },
       },

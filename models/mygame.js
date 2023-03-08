@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Profile extends Model {
+  class MyGame extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,42 +9,40 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Profile.belongsTo(models.User)
+      MyGame.belongsTo(models.User);
     }
   }
-  Profile.init(
+  MyGame.init(
     {
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        validate: {
-          notNull: {
-            msg: "Name should not be null",
-          },
-          notEmpty: {
-            msg: "Name should not be empty",
-          },
-        },
-      },
-      profilePicture: DataTypes.STRING,
       UserId: {
         allowNull: false,
         type: DataTypes.INTEGER,
         validate: {
           notNull: {
-            msg: "User id should not be null",
+            msg: "User id is required",
           },
           notEmpty: {
-            msg: "User id should not be empty",
+            msg: "User id is required",
           },
         },
       },
-      about: DataTypes.TEXT,
+      gameId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        validate: {
+          notNull: {
+            msg: "Game id is required",
+          },
+          notEmpty: {
+            msg: "Game id is required",
+          },
+        },
+      },
     },
     {
       sequelize,
-      modelName: "Profile",
+      modelName: "MyGame",
     }
   );
-  return Profile;
+  return MyGame;
 };

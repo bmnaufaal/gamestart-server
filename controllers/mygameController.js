@@ -1,17 +1,17 @@
-"use strict";
-const { Wishlist } = require("../models");
+"use sctrict";
+const { MyGame } = require("../models");
 const axios = require("axios");
 
-class WishlistController {
+class MyGameController {
   static async findAll(req, res, next) {
     try {
-      let wishlists = await Wishlist.findAll({
+      const mygames = await MyGame.findAll({
         where: {
           UserId: req.user.id,
         },
       });
       let gameIds = [];
-      wishlists.forEach((element) => {
+      mygames.forEach((element) => {
         gameIds.push(element.gameId);
       });
       let body = `
@@ -50,12 +50,12 @@ class WishlistController {
   static async findOne(req, res, next) {
     try {
       const { id } = req.params;
-      const wishlist = await Wishlist.findAll({
+      const mygames = await MyGame.findAll({
         where: {
           id: id,
         },
       });
-      res.status(200).json(wishlist);
+      res.status(200).json(mygames);
     } catch (error) {
       next(error);
     }
@@ -82,37 +82,21 @@ class WishlistController {
       });
       if (!games) throw { name: "NotFound" };
 
-      const foundWishlist = await Wishlist.findOne({
+      const foundMyGame = await MyGame.findOne({
         where: {
           UserId: UserId,
           gameId: gameId,
         },
       });
 
-      if (foundWishlist) throw { name: "AlreadyOnWishlist" };
+      if (foundMyGame) throw { name: "AlreadyBought" };
 
-      await Wishlist.create({
+      await MyGame.create({
         UserId: UserId,
         gameId: gameId,
       });
       res.status(201).json({
-        message: "Game added to wishlist",
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async delete(req, res, next) {
-    try {
-      const { id } = req.params;
-      await Wishlist.destroy({
-        where: {
-          id: id,
-        },
-      });
-      res.status(201).json({
-        message: "Game removed from wishlist",
+        message: "Game successfully bought",
       });
     } catch (error) {
       next(error);
@@ -120,4 +104,4 @@ class WishlistController {
   }
 }
 
-module.exports = WishlistController;
+module.exports = MyGameController;

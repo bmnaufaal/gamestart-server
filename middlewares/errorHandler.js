@@ -3,6 +3,10 @@ function errorHandler(error, req, res, next) {
   let message = "";
 
   switch (error.name) {
+    case "AlreadyBought":
+      code = 400;
+      message = "Game already bought";
+      break;
     case "InvalidCredentials":
       code = 401;
       message = "Invalid email/password";

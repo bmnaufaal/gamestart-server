@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasOne(models.Profile);
       User.hasMany(models.Wishlist);
+      User.hasMany(models.MyGame);
     }
   }
   User.init(

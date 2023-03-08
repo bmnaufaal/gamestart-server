@@ -22,11 +22,11 @@ class GamesController {
 
       const { data: games } = await axios({
         method: "POST",
-        url: "https://api.igdb.com/v4/games",
+        url: process.env.IGDB_BASEURL + "/v4/games",
         data: body,
         headers: {
-          "Client-ID": "97q08leojr8005vzwasxrlux74dmpu",
-          Authorization: "Bearer 6lebmp97ualingh5psd4les477p27z",
+          "Client-ID": process.env.IGDB_CLIENT_ID,
+          Authorization: process.env.IGDB_TOKEN,
         },
       });
       res.status(200).json(games);
@@ -47,11 +47,11 @@ class GamesController {
       body = body.concat(`where id=${id};`);
       const { data: games } = await axios({
         method: "POST",
-        url: "https://api.igdb.com/v4/games",
+        url: process.env.IGDB_BASEURL + "/v4/games",
         data: body,
         headers: {
-          "Client-ID": "97q08leojr8005vzwasxrlux74dmpu",
-          Authorization: "Bearer 6lebmp97ualingh5psd4les477p27z",
+          "Client-ID": process.env.IGDB_CLIENT_ID,
+          Authorization: process.env.IGDB_TOKEN,
         },
       });
       if (!games) throw { name: "NotFound" };

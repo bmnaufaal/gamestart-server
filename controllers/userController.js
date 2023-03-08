@@ -1,7 +1,7 @@
 "use strict";
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
-const { User } = require("../models");
+const { User, Profile } = require("../models");
 const { OAuth2Client } = require("google-auth-library");
 const { generatePassword } = require("../helpers/format");
 
@@ -13,6 +13,14 @@ class UserController {
         email,
         password,
       });
+
+      let name = email.split("@");
+      name = name[0];
+      await Profile.create({
+        name: name,
+        UserId: createdUser.id,
+      });
+
       res.status(201).json({
         message: "Success Register",
         data: {
@@ -61,8 +69,7 @@ class UserController {
       const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
       const ticket = await client.verifyIdToken({
         idToken: token_google,
-        audience:
-          "253349187516-fqfct5q4dtnd31q9a3aas0ndnaj9hmfh.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+        audience: process.env.GOOGLE_CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
         // Or, if multiple clients access the backend:
         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
       });

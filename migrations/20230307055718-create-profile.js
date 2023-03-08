@@ -18,7 +18,7 @@ module.exports = {
           "https://static.wikia.nocookie.net/monsterhunter/images/0/09/MHWI-Fatalis_Icon.png/revision/latest?cb=20210724203023",
         type: Sequelize.STRING,
       },
-      userId: {
+      UserId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: {

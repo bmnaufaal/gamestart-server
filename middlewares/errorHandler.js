@@ -3,6 +3,10 @@ function errorHandler(error, req, res, next) {
   let message = "";
 
   switch (error.name) {
+    case "InvalidCredentials":
+      code = 401;
+      message = "Invalid email/password";
+      break;
     case "AlreadyOnWishlist":
       code = 400;
       message = "Game is alraedy on wishlist";

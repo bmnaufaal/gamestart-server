@@ -1,6 +1,6 @@
 const WishlistController = require("../controllers/wishlistController");
 const authentication = require("../middlewares/authentication");
-const authorization = require("../middlewares/authorization");
+const { wishlistAuthorization } = require("../middlewares/authorization");
 
 const wishlistRouter = require("express").Router();
 
@@ -10,9 +10,8 @@ wishlistRouter.post("/add", authentication, WishlistController.create);
 wishlistRouter.delete(
   "/:id",
   authentication,
-  authorization,
+  wishlistAuthorization,
   WishlistController.delete
 );
-wishlistRouter.post("/update", (req, res, next) => {});
 
 module.exports = wishlistRouter;

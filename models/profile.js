@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       profilePicture: DataTypes.STRING,
-      userId: {
+      UserId: {
         allowNull: false,
         type: DataTypes.INTEGER,
         validate: {

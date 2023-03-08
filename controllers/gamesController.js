@@ -45,7 +45,6 @@ class GamesController {
 
       if (!id) throw { name: "NotFound" };
       body = body.concat(`where id=${id};`);
-
       const { data: games } = await axios({
         method: "POST",
         url: "https://api.igdb.com/v4/games",
@@ -55,6 +54,8 @@ class GamesController {
           Authorization: "Bearer 6lebmp97ualingh5psd4les477p27z",
         },
       });
+      if (!games) throw { name: "NotFound" };
+
       res.status(200).json(games);
     } catch (error) {
       next(error);

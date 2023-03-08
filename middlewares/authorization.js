@@ -1,15 +1,15 @@
-// const { Movie, Genre } = require("../models");
+const { Wishlist } = require("../models");
 
-// async function authorization(req, res, next) {
-//   try {
-//     let movieId = req.params.id;
-//     let movie = await Movie.findByPk(movieId);
-//     if (!movie) throw { name: "MovieNotFound" };
-//     if (req.user.role !== "Admin") throw { name: "Forbidden" };
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+async function authorization(req, res, next) {
+  try {
+    const { id } = req.params;
+    const foundWishlist = await Wishlist.findByPk(id);
+    if (!foundWishlist) throw { name: "NotFound" };
+    if (foundWishlist.UserId !== req.user.id) throw { name: "Forbidden" };
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
-// module.exports = authorization;
+module.exports = authorization;

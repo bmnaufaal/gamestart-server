@@ -3,6 +3,14 @@ function errorHandler(error, req, res, next) {
   let message = "";
 
   switch (error.name) {
+    case "AlreadyOnWishlist":
+      code = 400;
+      message = "Game is alraedy on wishlist";
+      break;
+    case "AxiosError":
+      code = 400;
+      message = "Axios Error";
+      break;
     case "NotFound":
       code = 404;
       message = "Data not found";

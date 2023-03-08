@@ -47,18 +47,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      role: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        validate: {
-          notNull: {
-            msg: "Role is required",
-          },
-          notEmpty: {
-            msg: "Role is required",
-          },
-        },
-      },
+      role: DataTypes.INTEGER,
     },
     {
       sequelize,
@@ -68,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.beforeCreate((user, options) => {
     user.password = hashPassword(user.password);
+    user.role = "Regular";
   });
 
   return User;

@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.Profile);
+      User.hasMany(models.Wishlist);
     }
   }
   User.init(
@@ -42,6 +44,18 @@ module.exports = (sequelize, DataTypes) => {
           },
           notEmpty: {
             msg: "Password is required",
+          },
+        },
+      },
+      role: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        validate: {
+          notNull: {
+            msg: "Role is required",
+          },
+          notEmpty: {
+            msg: "Role is required",
           },
         },
       },

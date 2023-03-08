@@ -1,9 +1,10 @@
 "use strict";
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
-const { User, Profile } = require("../models");
+const { User, Profile, MyGame } = require("../models");
 const { OAuth2Client } = require("google-auth-library");
 const { generatePassword } = require("../helpers/format");
+const midtransClient = require("midtrans-client");
 
 class UserController {
   static async register(req, res, next) {
@@ -66,6 +67,7 @@ class UserController {
   static async googleSignIn(req, res, next) {
     try {
       const { token_google } = req.headers;
+      console.log(token_google);
       const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
       const ticket = await client.verifyIdToken({
         idToken: token_google,
@@ -94,6 +96,41 @@ class UserController {
       res.status(200).json({
         access_token: access_token,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async generateMidtransToken(req, res, next) {
+    try {
+      const foundUser = await User.findByPk(req.user.id);
+      if (!foundUser) throw { name: "NotFound" };
+
+      let snap = new midtransClient.Snap({
+        // Set to true if you want Production Environment (accept real transaction).
+        isProduction: false,
+        serverKey: process.env.MIDTRANS_SERVER_KEY,
+      });
+
+      let parameter = {
+        transaction_details: {
+          order_id:
+            "TRANSACTION_" + Math.floor(1000000 + Math.random() * 9000000),
+          gross_amount: 100000,
+        },
+        credit_card: {
+          secure: true,
+        },
+        customer_details: {
+          //   first_name: "budi",
+          //   last_name: "pratama",
+          email: foundUser.email,
+          //   phone: "08111222333",
+        },
+      };
+
+      const midtransToken = await snap.createTransaction(parameter);
+      res.status(201).json(midtransToken);
     } catch (error) {
       next(error);
     }

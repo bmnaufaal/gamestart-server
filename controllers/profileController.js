@@ -23,11 +23,12 @@ class ProfileController {
 
   static async update(req, res, next) {
     try {
-      const { name, profilePicture } = req.body;
+      const { name, profilePicture, about } = req.body;
       await Profile.update(
         {
           name,
           profilePicture,
+          about,
         },
         {
           where: {

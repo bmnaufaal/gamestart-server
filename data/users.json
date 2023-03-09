@@ -1,0 +1,27 @@
+[
+  {
+    "email": "bmnaufaal@gmail.com",
+    "password": "123456",
+    "role": "Member"
+  },
+  {
+    "email": "bizod1@amazonaws.com",
+    "password": "pmK6ZEPwjtI",
+    "role": "Member"
+  },
+  {
+    "email": "jmcharry2@merriam-webster.com",
+    "password": "ifN1vsly",
+    "role": "Regular"
+  },
+  {
+    "email": "wswanborough3@wunderground.com",
+    "password": "pOwvyV",
+    "role": "Regular"
+  },
+  {
+    "email": "igiraudel4@java.com",
+    "password": "57J4BV",
+    "role": "Regular"
+  }
+]

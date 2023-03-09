@@ -7,7 +7,7 @@ class GamesController {
       let { search, page, size } = req.query;
       let body = `
             fields name, rating, rating_count, platforms.name, platforms.platform_logo.image_id, summary, cover.image_id, screenshots.image_id, artworks.image_id, genres.name, checksum, videos.video_id; 
-            where rating != n & rating > 90;
+            where cover != n & videos != n;
             limit 10;
         `;
 

@@ -10,38 +10,43 @@ class WishlistController {
           UserId: req.user.id,
         },
       });
-      let gameIds = [];
-      wishlists.forEach((element) => {
-        gameIds.push(element.gameId);
-      });
-      let body = `
-        fields name, rating, rating_count, platforms.name, platforms.platform_logo.image_id, summary, cover.image_id, screenshots.image_id, artworks.image_id, genres.name, checksum, videos.video_id; 
-        limit 10;
-      `;
-      gameIds.forEach((element, index) => {
-        if (gameIds.length === 1) {
-          body = body.concat(`where id=(${element});`);
-        } else {
-          if (index === 0) {
-            body = body.concat(`where id=(${element},`);
-          } else if (index === gameIds.length - 1) {
-            body = body.concat(`${element});`);
+      if (wishlists.length === 0) {
+        res.status(200).json([]);
+      } else {
+        let gameIds = [];
+        wishlists.forEach((element) => {
+          gameIds.push(element.gameId);
+        });
+        let body = `
+          fields name, rating, rating_count, platforms.name, platforms.platform_logo.image_id, summary, cover.image_id, screenshots.image_id, artworks.image_id, genres.name, checksum, videos.video_id; 
+          limit 10;
+        `;
+        gameIds.forEach((element, index) => {
+          if (gameIds.length === 1) {
+            body = body.concat(`where id=(${element});`);
           } else {
-            body = body.concat(`${element},`);
+            if (index === 0) {
+              body = body.concat(`where id=(${element},`);
+            } else if (index === gameIds.length - 1) {
+              body = body.concat(`${element});`);
+            } else {
+              body = body.concat(`${element},`);
+            }
           }
-        }
-      });
-      const { data: games } = await axios({
-        method: "POST",
-        url: process.env.IGDB_BASEURL + "/v4/games",
-        data: body,
-        headers: {
-          "Client-ID": process.env.IGDB_CLIENT_ID,
-          Authorization: process.env.IGDB_TOKEN,
-        },
-      });
-
-      res.status(200).json(games);
+        });
+        console.log(body);
+        const { data: games } = await axios({
+          method: "POST",
+          url: process.env.IGDB_BASEURL + "/v4/games",
+          data: body,
+          headers: {
+            "Client-ID": process.env.IGDB_CLIENT_ID,
+            Authorization: process.env.IGDB_TOKEN,
+          },
+        });
+        //   console.log(games);
+        res.status(200).json(games);
+      }
     } catch (error) {
       next(error);
     }

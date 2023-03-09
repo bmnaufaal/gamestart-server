@@ -253,6 +253,14 @@ Description:
 
 Request:
 
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
 _Response (200 - OK)_
 
 ```json
@@ -432,6 +440,14 @@ Description:
 - Get all games
 
 Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
 
 _Response (200 - OK)_
 

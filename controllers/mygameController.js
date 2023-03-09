@@ -1,5 +1,5 @@
 "use sctrict";
-const { MyGame } = require("../models");
+const { MyGame, Wishlist } = require("../models");
 const axios = require("axios");
 
 class MyGameController {
@@ -94,6 +94,22 @@ class MyGameController {
       });
 
       if (foundMyGame) throw { name: "AlreadyBought" };
+
+      const foundWishList = await Wishlist.findOne({
+        where: {
+          UserId: UserId,
+          gameId: gameId,
+        },
+      });
+
+      if (foundWishList) {
+        await Wishlist.destroy({
+          where: {
+            UserId: UserId,
+            gameId: gameId,
+          },
+        });
+      }
 
       await MyGame.create({
         UserId: UserId,
